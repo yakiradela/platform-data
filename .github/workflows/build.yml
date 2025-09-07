@@ -1,0 +1,63 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data-pipelines/dags/kafka-app/**'
+      - 'data-pipeline/dags/rds-app/**'
+      - 'data-pipeline/dags/spark-app/**'
+      - '.github/workflows/**'
+      - 'infra/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init & Apply
+        run: |
+          cd infra/environoments/dev
+          terraform init
+          terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-2
+
+      - name: Build Docker images for kafka-app
+        run: |
+          cd data-pipelines/dags/kafka-app
+          docker build -f Dockerfile -t devops-data-platform-kafka:v1.0.0 .
+          docker tag devops-data-platform-kafka:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-kafka:v1.0.0
+
+      - name: Build Docker images for rds-app
+        run: |
+          cd data-pipelines/dags/rds-app
+          docker build -f Dockerfile -t devops-data-platform-rds:v1.0.0 .
+          docker tag devops-data-platform-rds:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-rds:v1.0.0
+
+      - name: Build Docker images for spark-app
+        run: |
+          cd data-pipelines/dags/spark-app
+          docker build -f Dockerfile -t devops-data-platform-spark:v1.0.0 .
+          docker tag devops-data-platform-spark:v1.0.0 ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-spark:v1.0.0
+
+      - name: Push Docker images to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-kafka:v1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-rds:v1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-data-platform-spark:v1.0.0
