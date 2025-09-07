@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-batch-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: spark-app
+    spec:
+      containers:
+        - name: spark-job
+          image: yakiradela/devops-data-platform-spark:v1.0.0
+          command:
+            - "/opt/spark/bin/spark-submit"
+            - "--class"
+            - "com.example.Main"
+            - "/app/your-spark-job.jar"
+      restartPolicy: Never
+  backoffLimit: 2

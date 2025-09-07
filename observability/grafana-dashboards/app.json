@@ -1,0 +1,17 @@
+{
+    "title": "App Overview",
+    "panels": [
+        {
+            "type": "graph",
+            "title": "HTTP Request",
+            "targets": [
+                {
+                    "expr": "rate(http_request_total[1m])",
+                    "format": "time_series"
+                }
+            ]
+        }
+    ],
+    "$schemaVersion": 16,
+    "version": 1 
+}

@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rds-migration-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: rds-app
+    spec:
+      containers:
+        - name: rds-migration
+          image: yakiradela/devops-data-platform-rds:v1.0.0
+          command: ["/bin/sh", "-c", "./run-migrations.sh"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rds-credentials
+                  key: database_url
+      restartPolicy: OnFailure

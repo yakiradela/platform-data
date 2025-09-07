@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rds-app-service
+spec:
+  selector:
+    app: rds-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

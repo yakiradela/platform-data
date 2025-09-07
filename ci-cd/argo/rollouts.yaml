@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1 
+kind: Rollout 
+metadata:
+  name: devops-data-platform-rollout 
+spec:
+  replicas: 3 
+  strategy:
+    canary:
+      steps: 
+        - setWeight: 20 
+        - pause: { duration: 30s }
+        - setWeight: 50 
+        - pause: { duration: 1m }
+        - setWeight: 100 
+  selector: 
+    matchLabels:
+      app: devops-data-platform
+  template: 
+    metadata: 
+      labels: 
+        app: devops-data-platform
+    spec: 
+      containers:
+        - name: devops-data-platform
+          image: devops-data-platform:v1.0.0
+          ports:
+            - containerPort: 8080 
