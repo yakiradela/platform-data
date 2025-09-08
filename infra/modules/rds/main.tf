@@ -31,11 +31,11 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "dev-rds-subnet-group"
+  name       = "Dev-rds-subnet-group"
   subnet_ids = var.subnet_ids
 
   tags = {
-    Name = "dev-rds-subnet-group"
+    Name = "Dev-rds-subnet-group"
   }
 }
 
