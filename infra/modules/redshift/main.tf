@@ -9,7 +9,7 @@ resource "aws_redshift_subnet_group" "default" {
 
   tags = {
     Environment = "dev"
-    Name        = "dev-redshift-subnet-group1"
+    Name        = "dev-redshift-subnet-groups"
   }
 }
 
