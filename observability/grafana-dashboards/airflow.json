@@ -1,27 +1,27 @@
 {
-    "title": "Airflow Dashboard",
-    "panels": [
+  "title": "Airflow Dashboard",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "DAG Runs",
+      "targets": [
         {
-            "type": "graph",
-            "title": "DAG Runs",
-            "targets": [
-                {
-                    "expr": "rate(airflow_dag_run_duration_seconds_count[5m])",
-                    "format": " time_series"
-                }
-            ]
-        },
-        {
-            "type": "graph",
-            "title": "Task Failures",
-            "targets": [
-                {
-                    "expr": "rate(airflow_task_failures[5m])",
-                    "format": " time_series"
-                }
-            ]
+          "expr": "rate(airflow_dag_run_duration_seconds_count[5m])",
+          "format": "time_series"
         }
-    ],
-    "$schemaVersion": 16,
-    "version": 1 
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "Task Failures",
+      "targets": [
+        {
+          "expr": "rate(airflow_task_failures[5m])",
+          "format": "time_series"
+        }
+      ]
+    }
+  ],
+  "$schemaVersion": 16,
+  "version": 1
 }
