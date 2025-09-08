@@ -1,17 +1,17 @@
 {
-    "title": "kafka Dashboard",
-    "panels": [
+  "title": "kafka Dashboard",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Kafka Message In Per Seconds",
+      "targets": [
         {
-            "type": "graph",
-            "title": "Kafka Message In Per Seconds",
-            "targets": [
-                {
-                    "expr": "rate(kafka_server_brokertopicmetrics_messagesin_total[1m])",
-                    "format": "time_series"
-                }
-            ]
+          "expr": "rate(kafka_server_brokertopicmetrics_messagesin_total[1m])",
+          "format": "time_series"
         }
-    ],
-    "$schemaVersion": 16,
-    "version": 1 
+      ]
+    }
+  ],
+  "$schemaVersion": 16,
+  "version": 1
 }
