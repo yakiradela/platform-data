@@ -1,4 +1,4 @@
-name: Deploy & Migrate Only 
+name: Deploy & Migrate Only  
 
 on:
   workflow_dispatch:  # מאפשר להריץ ידנית מה-GitHub Actions
