@@ -79,6 +79,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r data-pipelines/dags/rds-app/requirements.txt
 
+      - name: Make db-migrations.sh executable
+        run: chmod +x ./ci-cd/scripts/db-migrations.sh
+
       - name: Run DB migrations
         run: ./ci-cd/scripts/db-migrations.sh
         env:
