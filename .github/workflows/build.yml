@@ -83,7 +83,7 @@ jobs:
         run: chmod +x ./ci-cd/scripts/db-migrations.sh
 
       - name: Run DB migrations
-        run: ./ci-cd/scripts/db-migrations.sh
+        run: bash ./ci-cd/scripts/db-migrations.sh
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
