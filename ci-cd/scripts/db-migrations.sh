@@ -2,5 +2,5 @@
 set -e
 
 echo "Running DB migrations..."
-python data-pipelines/dags/rds-app/tools/run_migrations.py
+python data-pipelines/dags/rds-app/run_migrations.py
 echo "Done."
